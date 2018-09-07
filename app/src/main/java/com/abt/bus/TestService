@@ -1,0 +1,66 @@
+
+
+package com.abt.bus;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.abt.basic.BaseApplication;
+import com.abt.basic.logger.LogHelper;
+import com.jooan.mqtt.event.ConnectEvent;
+import com.jooan.mqtt.impl.IMqtt;
+import com.jooan.mqtt.impl.MqttImpl;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+/**
+ * @author 黄卫旗
+ * @description MqttService
+ * @time 2018/09/05
+ */
+public class TestService extends Service {
+
+    private static final String TAG = TestService.class.getSimpleName();
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ConnectEvent event = new ConnectEvent();
+        event.setToken(token);
+        event.setStatus(false);
+        EventBus.getDefault().post(event);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        LogHelper.d(TAG, "onStartCommand");
+        return START_STICKY;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        LogHelper.d(TAG, "onBind");
+        return null;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        LogHelper.d(TAG, "onUnbind");
+        return super.onUnbind(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogHelper.d(TAG, "onDestroy");
+    }
+
+}
+
+
